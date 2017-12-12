@@ -51,7 +51,7 @@ class AddCustomerViewController: UIViewController, UITableViewDelegate {
     // Clear textfields and send success message
     
     func customerAddConfirm () {
-        let alert = UIAlertController(title: "Thank you!", message: "New customer added!", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Thank you!", message: "New customer added.", preferredStyle: .alert)
         let action = UIAlertAction(title: "Done", style: .default, handler: nil)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)

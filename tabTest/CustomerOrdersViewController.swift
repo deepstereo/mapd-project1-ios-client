@@ -1,5 +1,5 @@
 //
-//  CustomerDetails.swift
+//  CustomerOrdersViewController.swift
 //  tabTest
 //
 //  Created by Sergey Kozak on 05/12/2017.
@@ -8,76 +8,75 @@
 
 import UIKit
 
-class CustomerDetails: UITableViewController {
+class CustomerOrdersViewController: UITableViewController {
+    
+    struct Order: Codable {
+        var customerID: String? = ""
+        var product: String? = ""
+        var amount: Int? = 0
+        var isPaid: Bool = false
+    }
+    
+    var orders = [Order]()
     
     var customerID = ""
-    var selectedCustomer = FirstViewController.Customer()
     
-    @IBOutlet weak var address: UITableViewCell!
-    @IBOutlet weak var phone: UITableViewCell!
-    @IBOutlet weak var contact: UITableViewCell!
-
-    
+    func getCustomerOrders() {
+        let apiURL = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers/\(customerID)/orders")
+        let getTask = URLSession.shared.dataTask(with: apiURL!) { (data, response, error) in
+            do {
+                self.orders = try JSONDecoder().decode([Order].self, from: data!)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                print(self.orders)
+            } catch {
+                print(error)
+            }
+        }
+        getTask.resume()
+        tableView.reloadData()
+    }
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(customerID)
-        self.title = selectedCustomer.businessName
+        getCustomerOrders()
         
-        address.textLabel?.text = selectedCustomer.address
-        address.detailTextLabel?.text = "Address"
-        
-        phone.textLabel?.text = String(selectedCustomer.telephone)
-        phone.detailTextLabel?.text = "Phone number"
-        
-        contact.textLabel?.text = selectedCustomer.contactPerson
-        contact.detailTextLabel?.text = "Contact person"
-        
- 
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    @IBAction func showOrders(_ sender: Any) {
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    
-    
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
 
     // MARK: - Table view data source
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 2
-//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
 
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        switch section {
-//        case 0:
-//            return 3
-//        case 1:
-//            return 4
-//        default:
-//            return 0
-//        }
-//    }
-    
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return orders.count
+    }
 
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//    }
-//
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "orderCell", for: indexPath)
+        cell.textLabel?.text = orders[indexPath.row].product
+        cell.detailTextLabel?.text = String(describing: orders[indexPath.row].amount)
+        print(orders[indexPath.row].product)
+        return cell
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -114,14 +113,14 @@ class CustomerDetails: UITableViewController {
     }
     */
 
-    
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let customerOrdersVC = segue.destination as! CustomerOrdersViewController
-        customerOrdersVC.customerID = customerID
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
     }
- 
+    */
 
 }

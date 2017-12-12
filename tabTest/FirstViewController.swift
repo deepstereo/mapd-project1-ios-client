@@ -74,16 +74,17 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     // Segue to detail view
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showCustomer" {
+        if segue.identifier == "customerDetails" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let customerVC = segue.destination as! CustomerViewController
-                customerVC.selectedCustomer = customers[indexPath.row]
+                let customerDetailsVC = segue.destination as! CustomerDetails
+                customerDetailsVC.selectedCustomer = customers[indexPath.row]
+                customerDetailsVC.customerID = customers[indexPath.row]._id
             }
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showCustomer", sender: Any?.self)
+        performSegue(withIdentifier: "customerDetails", sender: Any?.self)
     }
     
     // Segue to Add customer

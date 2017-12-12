@@ -23,7 +23,7 @@ class AddCustomerTable: UITableViewController {
     @IBOutlet weak var phoneField: UITextField!
     @IBOutlet weak var contactPersonField: UITextField!
     
-    let apiURL = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers")
+    private let apiURL = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers")
     var newCustomer = addedCustomer()
     
     // Function to save customer to API will be called on button tap
