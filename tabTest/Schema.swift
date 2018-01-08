@@ -29,8 +29,8 @@ class Schema: NSObject {
     
     public struct Order: Codable {
         var _id: String = ""
-        var customerID: String? = ""
-        var product: String? = ""
+        var customerId: String? = ""
+        var productId: String? = ""
         var amount: Int? = 0
         var isPaid: Bool = false
     }

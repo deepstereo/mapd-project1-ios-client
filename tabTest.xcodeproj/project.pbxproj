@@ -10,6 +10,10 @@
 		1302894C2001D57600AAEA06 /* EditCustomerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1302894B2001D57600AAEA06 /* EditCustomerTableViewController.swift */; };
 		1302894E2002D6E200AAEA06 /* CustomerOrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1302894D2002D6E200AAEA06 /* CustomerOrderCell.swift */; };
 		130289502002EE7500AAEA06 /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1302894F2002EE7500AAEA06 /* OrderCell.swift */; };
+		130289522002F69B00AAEA06 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130289512002F69B00AAEA06 /* ProductsViewController.swift */; };
+		130289542002F9AD00AAEA06 /* AddOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130289532002F9AD00AAEA06 /* AddOrderViewController.swift */; };
+		130289562003267400AAEA06 /* ProductCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130289552003267400AAEA06 /* ProductCellTableViewCell.swift */; };
+		1302895820032CBF00AAEA06 /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1302895720032CBF00AAEA06 /* AddProductViewController.swift */; };
 		130835471FD6517900C68F4F /* AddCustomerTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130835461FD6517900C68F4F /* AddCustomerTable.swift */; };
 		130835671FD6610D00C68F4F /* CustomerDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130835661FD6610D00C68F4F /* CustomerDetails.swift */; };
 		130835691FD7B09100C68F4F /* CustomerOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130835681FD7B09100C68F4F /* CustomerOrdersViewController.swift */; };
@@ -29,6 +33,10 @@
 		1302894B2001D57600AAEA06 /* EditCustomerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCustomerTableViewController.swift; sourceTree = "<group>"; };
 		1302894D2002D6E200AAEA06 /* CustomerOrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrderCell.swift; sourceTree = "<group>"; };
 		1302894F2002EE7500AAEA06 /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
+		130289512002F69B00AAEA06 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
+		130289532002F9AD00AAEA06 /* AddOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderViewController.swift; sourceTree = "<group>"; };
+		130289552003267400AAEA06 /* ProductCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCellTableViewCell.swift; sourceTree = "<group>"; };
+		1302895720032CBF00AAEA06 /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		130835461FD6517900C68F4F /* AddCustomerTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomerTable.swift; sourceTree = "<group>"; };
 		130835661FD6610D00C68F4F /* CustomerDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetails.swift; sourceTree = "<group>"; };
 		130835681FD7B09100C68F4F /* CustomerOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrdersViewController.swift; sourceTree = "<group>"; };
@@ -76,23 +84,27 @@
 		13E6C0AB1FD3CCD1009F802F /* tabTest */ = {
 			isa = PBXGroup;
 			children = (
-				13E6C0AC1FD3CCD1009F802F /* AppDelegate.swift */,
-				13E6C0AE1FD3CCD1009F802F /* FirstViewController.swift */,
-				13E6C0C01FD3D06B009F802F /* CustomerViewController.swift */,
+				1302895720032CBF00AAEA06 /* AddProductViewController.swift */,
+				130835461FD6517900C68F4F /* AddCustomerTable.swift */,
 				13E6C0C41FD4E07C009F802F /* AddCustomerViewController.swift */,
-				13E6C0B01FD3CCD1009F802F /* SecondViewController.swift */,
-				13C94FCC1FE9C75F00B303A6 /* Schema.swift */,
+				130289532002F9AD00AAEA06 /* AddOrderViewController.swift */,
+				13E6C0AC1FD3CCD1009F802F /* AppDelegate.swift */,
+				13E6C0B51FD3CCD1009F802F /* Assets.xcassets */,
+				13E6C0C21FD3D184009F802F /* CustomerCell.swift */,
+				130835661FD6610D00C68F4F /* CustomerDetails.swift */,
+				1302894D2002D6E200AAEA06 /* CustomerOrderCell.swift */,
+				130835681FD7B09100C68F4F /* CustomerOrdersViewController.swift */,
+				13E6C0C01FD3D06B009F802F /* CustomerViewController.swift */,
+				1302894B2001D57600AAEA06 /* EditCustomerTableViewController.swift */,
+				13E6C0AE1FD3CCD1009F802F /* FirstViewController.swift */,
+				13E6C0BA1FD3CCD1009F802F /* Info.plist */,
+				13E6C0B71FD3CCD1009F802F /* LaunchScreen.storyboard */,
 				13E6C0B21FD3CCD1009F802F /* Main.storyboard */,
 				1302894F2002EE7500AAEA06 /* OrderCell.swift */,
-				1302894B2001D57600AAEA06 /* EditCustomerTableViewController.swift */,
-				130835681FD7B09100C68F4F /* CustomerOrdersViewController.swift */,
-				130835461FD6517900C68F4F /* AddCustomerTable.swift */,
-				130835661FD6610D00C68F4F /* CustomerDetails.swift */,
-				13E6C0C21FD3D184009F802F /* CustomerCell.swift */,
-				1302894D2002D6E200AAEA06 /* CustomerOrderCell.swift */,
-				13E6C0B51FD3CCD1009F802F /* Assets.xcassets */,
-				13E6C0B71FD3CCD1009F802F /* LaunchScreen.storyboard */,
-				13E6C0BA1FD3CCD1009F802F /* Info.plist */,
+				130289552003267400AAEA06 /* ProductCellTableViewCell.swift */,
+				130289512002F69B00AAEA06 /* ProductsViewController.swift */,
+				13C94FCC1FE9C75F00B303A6 /* Schema.swift */,
+				13E6C0B01FD3CCD1009F802F /* SecondViewController.swift */,
 			);
 			path = tabTest;
 			sourceTree = "<group>";
@@ -171,7 +183,10 @@
 			files = (
 				130835671FD6610D00C68F4F /* CustomerDetails.swift in Sources */,
 				130835471FD6517900C68F4F /* AddCustomerTable.swift in Sources */,
+				130289542002F9AD00AAEA06 /* AddOrderViewController.swift in Sources */,
+				130289522002F69B00AAEA06 /* ProductsViewController.swift in Sources */,
 				13E6C0C51FD4E07C009F802F /* AddCustomerViewController.swift in Sources */,
+				1302895820032CBF00AAEA06 /* AddProductViewController.swift in Sources */,
 				13E6C0C11FD3D06B009F802F /* CustomerViewController.swift in Sources */,
 				13C94FCD1FE9C75F00B303A6 /* Schema.swift in Sources */,
 				130835691FD7B09100C68F4F /* CustomerOrdersViewController.swift in Sources */,
@@ -180,6 +195,7 @@
 				13E6C0AD1FD3CCD1009F802F /* AppDelegate.swift in Sources */,
 				1302894E2002D6E200AAEA06 /* CustomerOrderCell.swift in Sources */,
 				1302894C2001D57600AAEA06 /* EditCustomerTableViewController.swift in Sources */,
+				130289562003267400AAEA06 /* ProductCellTableViewCell.swift in Sources */,
 				13E6C0AF1FD3CCD1009F802F /* FirstViewController.swift in Sources */,
 				13E6C0C31FD3D184009F802F /* CustomerCell.swift in Sources */,
 			);

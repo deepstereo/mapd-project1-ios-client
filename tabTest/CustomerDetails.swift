@@ -10,7 +10,6 @@ import UIKit
 
 class CustomerDetails: UITableViewController {
     
-    var customerID = ""
     var selectedCustomer = Schema.Customer()
     var customers = [Schema.Customer()]
     
@@ -97,7 +96,7 @@ class CustomerDetails: UITableViewController {
         }
         if segue.identifier == "showCustomerOrders" {
         let customerOrdersVC = segue.destination as! CustomerOrdersViewController
-        customerOrdersVC.customerID = customerID
+        customerOrdersVC.customerId = selectedCustomer._id
         }
         if segue.identifier == "backToCustomerDetails" {
             let editCustomerVC = segue.source as! EditCustomerTableViewController

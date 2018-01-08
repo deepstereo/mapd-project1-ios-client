@@ -13,7 +13,7 @@ class CustomerOrdersViewController: UITableViewController {
     var orderToUpdate = Schema.Order()
     var orders = [Schema.Order]()
     var products = [Schema.Product]()
-    var customerID = ""
+    var customerId = ""
     
     
     // MARK: API Actions
@@ -21,7 +21,7 @@ class CustomerOrdersViewController: UITableViewController {
     // Get orders for selected customer with ID from previous viewcontroller
     
     func getCustomerOrders() {
-        let apiURL = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers/\(customerID)/orders")
+        let apiURL = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers/\(customerId)/orders")
         let getTask = URLSession.shared.dataTask(with: apiURL!) { (data, response, error) in
             do {
                 self.orders = try JSONDecoder().decode([Schema.Order].self, from: data!)
@@ -104,7 +104,7 @@ class CustomerOrdersViewController: UITableViewController {
         var isPaid = Bool()
         
         for product in products {
-            if product._id == orders[indexPath.row].product {
+            if product._id == orders[indexPath.row].productId {
                 productName = product.productName
             }
         }

@@ -38,7 +38,7 @@ class AddCustomerTable: UITableViewController {
         do {
             let payload = try encoder.encode(self.newCustomer)
             postRequest.httpBody = payload
-            print(String(data: payload, encoding: .utf8)!)
+            print("New customer: \(String(data: payload, encoding: .utf8)!)")
         } catch {
             print(error)
         }

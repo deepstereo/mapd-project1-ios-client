@@ -14,6 +14,8 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var products = [Schema.Product]()
     var orders = [Schema.Order]()
     var customers = [Schema.Customer]()
+    var orderToUpdate = Schema.Order()
+    
     @IBOutlet weak var tableView: UITableView!
     
     // URL Session to get orders data from API
@@ -60,6 +62,25 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             }.resume()
     }
+    
+    // Update payment status when switch is flipped
+    
+    func updatePaymentStatus (forOrderId id: String) {
+        let apiURL = URL(string: "https://serene-eyrie-60807.herokuapp.com/orders/\(id)")
+        var putRequest = URLRequest(url: apiURL!)
+        putRequest.httpMethod = "PUT"
+        putRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let encoder = JSONEncoder()
+        do {
+            let payload = try encoder.encode(self.orderToUpdate)
+            putRequest.httpBody = payload
+            print("status updated to \(orderToUpdate.isPaid)")
+        } catch {
+            print(error)
+        }
+        let task = URLSession.shared.dataTask(with: putRequest)
+        task.resume()
+    }
 
     
     // Reload table data before view loads
@@ -80,8 +101,8 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let productID = orders[indexPath.row].product
-        let customerID = orders[indexPath.row].customerID
+        let productID = orders[indexPath.row].productId
+        let customerID = orders[indexPath.row].customerId
         var productName = "Not found"
         var customerName = "Not found"
         var customerAddress = "Not found"
@@ -115,10 +136,23 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+    @IBAction func paidSwitchChange(_ sender: UISwitch) {
+        let cell = sender.superview?.superview as! OrderCell
+        let indexPath = tableView.indexPath(for: cell)
+        var order = orders[(indexPath?.row)!]
+        if sender.isOn == true {
+            sender.setOn(true, animated: true)
+            order.isPaid = true
+        } else {
+            sender.setOn(false, animated: true)
+            order.isPaid = false
+        }
+        orderToUpdate = order
+        updatePaymentStatus(forOrderId: order._id)
     }
+    
+    
     
  
 

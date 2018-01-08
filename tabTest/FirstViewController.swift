@@ -69,7 +69,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             if let indexPath = tableView.indexPathForSelectedRow {
                 let customerDetailsVC = segue.destination as! CustomerDetails
                 customerDetailsVC.selectedCustomer = customers[indexPath.row]
-                customerDetailsVC.customerID = customers[indexPath.row]._id
             }
         }
     }
