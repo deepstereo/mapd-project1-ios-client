@@ -13,11 +13,11 @@ class CustomerDetails: UITableViewController {
     var selectedCustomer = Schema.Customer()
     var customers = [Schema.Customer()]
     
-    @IBOutlet weak var businessName: UITableViewCell!
-    @IBOutlet weak var address: UITableViewCell!
-    @IBOutlet weak var phone: UITableViewCell!
-    @IBOutlet weak var email: UITableViewCell!
-    @IBOutlet weak var contact: UITableViewCell!
+    @IBOutlet weak var businessName: UILabel!
+    @IBOutlet weak var address: UILabel!
+    @IBOutlet weak var phone: UILabel!
+    @IBOutlet weak var email: UILabel!
+    @IBOutlet weak var contact: UILabel!
     
     
     // URL Session to download json data
@@ -25,50 +25,31 @@ class CustomerDetails: UITableViewController {
         let sourceUrl = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers/\(selectedCustomer._id)")
         URLSession.shared.dataTask(with: sourceUrl!) { (data, response, error) in
             do {
-                self.customers = try JSONDecoder().decode([Schema.Customer].self, from: data!)
-                print("view will appear with: \(self.selectedCustomer)")
+                self.selectedCustomer = try JSONDecoder().decode(Schema.Customer.self, from: data!)
+                print("get gustomer from API")
+                // To avoid warning from XCode tableView will be reloaded in main thread
+                DispatchQueue.main.async {
+                    self.businessName.text = self.selectedCustomer.businessName
+                    self.address.text = self.selectedCustomer.address
+                    self.phone.text = String(self.selectedCustomer.telephone)
+                    self.email.text = self.selectedCustomer.email
+                    self.contact.text = self.selectedCustomer.contactPerson
+                }
             } catch {
                 print(error)
             }
             }.resume()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getCustomerById()
+        print("view will appear")
 
-
-    @IBAction func unwindToCustomerDetails(_ sender: UIStoryboardSegue) {
-        let editCustomer = sender.source as! EditCustomerTableViewController
-        let editedCustomer = editCustomer.customerToEdit
-        
-        businessName.textLabel?.text = editedCustomer.businessName
-        address.textLabel?.text = editedCustomer.address
-        phone.textLabel?.text = String(editedCustomer.telephone)
-        email.textLabel?.text = editedCustomer.email
-        contact.textLabel?.text = editedCustomer.contactPerson
-        
     }
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("view did load: \(selectedCustomer)")
-
-        
-        businessName.textLabel?.text = selectedCustomer.businessName
-        businessName.detailTextLabel?.text = "Business name"
-        
-        address.textLabel?.text = selectedCustomer.address
-        address.detailTextLabel?.text = "Address"
-        
-        phone.textLabel?.text = String(selectedCustomer.telephone)
-        phone.detailTextLabel?.text = "Phone number"
-        
-        email.textLabel?.text = selectedCustomer.email
-        email.detailTextLabel?.text = "Email"
-        
-        contact.textLabel?.text = selectedCustomer.contactPerson
-        contact.detailTextLabel?.text = "Contact person"
-    
+        print("view did load")
     }
     
     
@@ -97,10 +78,6 @@ class CustomerDetails: UITableViewController {
         if segue.identifier == "showCustomerOrders" {
         let customerOrdersVC = segue.destination as! CustomerOrdersViewController
         customerOrdersVC.customerId = selectedCustomer._id
-        }
-        if segue.identifier == "backToCustomerDetails" {
-            let editCustomerVC = segue.source as! EditCustomerTableViewController
-            selectedCustomer = editCustomerVC.customerToEdit
         }
     }
  

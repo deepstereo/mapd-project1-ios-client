@@ -90,9 +90,13 @@ class AddCustomerTable: UITableViewController {
         customerAddConfirm()
     }
     
+    @IBAction func cancelAddingCustomer(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
     
     // ViewDidLoad
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

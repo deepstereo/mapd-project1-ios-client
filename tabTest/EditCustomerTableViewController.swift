@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditCustomerTableViewController: UITableViewController {
+class EditCustomerTableViewController: UITableViewController, UITextFieldDelegate {
     
     var customerToEdit = Schema.Customer()
     
@@ -21,6 +21,11 @@ class EditCustomerTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        businessName.delegate = self
+        address.delegate = self
+        telephone.delegate = self
+        email.delegate = self
+        contactPerson.delegate = self
         
         businessName.text = customerToEdit.businessName
         address.text = customerToEdit.address
@@ -46,13 +51,12 @@ class EditCustomerTableViewController: UITableViewController {
             do {
                 let payload = try encoder.encode(self.customerToEdit)
                 putRequest.httpBody = payload
-                print(String(data: payload, encoding: .utf8)!)
             } catch {
                 print(error)
             }
             let task = URLSession.shared.dataTask(with: putRequest)
             task.resume()
-
+        customerUpdateAlert()
     }
     
     
@@ -89,7 +93,7 @@ class EditCustomerTableViewController: UITableViewController {
     func customerUpdateAlert () {
         let alert = UIAlertController(title: "Thank you!", message: "Customer details updated 👍", preferredStyle: .alert)
         let action = UIAlertAction(title: "Done", style: .default) { (action) in
-            self.performSegue(withIdentifier: "backToCustomerDetails", sender: self);
+            self.navigationController?.popViewController(animated: true);
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
@@ -119,24 +123,24 @@ class EditCustomerTableViewController: UITableViewController {
         navigationController?.popViewController(animated: true);
     }
     
-    @IBAction func saveCustomer(_ sender: UIBarButtonItem) {
-        updateCustomer()
-    }
-    
 
     @IBAction func updateButtonPressed(_ sender: UIButton) {
         updateCustomer()
     }
     
     
-    // MARK: Segue
+    // Dismiss the keyboard on return
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "backToCustomerDetails" {
-//            let customerDetailsVC = segue.destination as! CustomerDetails
-//            customerDetailsVC.selectedCustomer = customerToEdit
-//        }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        businessName.resignFirstResponder()
+        address.resignFirstResponder()
+        telephone.resignFirstResponder()
+        email.resignFirstResponder()
+        contactPerson.resignFirstResponder()
+        return true
     }
+    
+    
     
 
 }
