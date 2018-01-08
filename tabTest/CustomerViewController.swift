@@ -14,7 +14,7 @@ class CustomerViewController: UIViewController, UITableViewDataSource, UITableVi
     
 
     var customerID = ""
-    var selectedCustomer = FirstViewController.Customer()
+    var selectedCustomer = Schema.Customer()
     
     // Table implementation
     

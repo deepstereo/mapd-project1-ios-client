@@ -9,21 +9,12 @@
 import UIKit
 
 class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    // Struct for importing data from API json
-    struct Customer: Codable {
-        var _id: String = ""
-        var businessName: String? = ""
-        var address: String? = ""
-        var telephone: Int = 0
-        var contactPerson: String? = ""
-        var email: String? = ""
-    }
+
     
     // Main API URL
     
     let sourceUrl = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers")
-    var customers = [Customer]()
+    var customers = [Schema.Customer]()
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -31,7 +22,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     func getCustomers () {
         URLSession.shared.dataTask(with: sourceUrl!) { (data, response, error) in
             do {
-                self.customers = try JSONDecoder().decode([Customer].self, from: data!)
+                self.customers = try JSONDecoder().decode([Schema.Customer].self, from: data!)
                 
                 // To avoid warning from XCode tableView will be reloaded in main thread
                 DispatchQueue.main.async {
@@ -65,10 +56,10 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
-        cell.textLabel?.text = customers[indexPath.row].businessName
-        cell.detailTextLabel?.text = customers[indexPath.row].address
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        cell?.textLabel?.text = customers[indexPath.row].businessName
+        cell?.detailTextLabel?.text = customers[indexPath.row].address
+        return cell!
     }
     
     // Segue to detail view

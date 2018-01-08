@@ -22,6 +22,7 @@ class AddCustomerTable: UITableViewController {
     @IBOutlet weak var addressField: UITextField!
     @IBOutlet weak var phoneField: UITextField!
     @IBOutlet weak var contactPersonField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
     
     private let apiURL = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers")
     var newCustomer = addedCustomer()
@@ -34,7 +35,6 @@ class AddCustomerTable: UITableViewController {
         postRequest.httpMethod = "POST"
         postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let encoder = JSONEncoder()
-        // encoder.outputFormatting = .prettyPrinted
         do {
             let payload = try encoder.encode(self.newCustomer)
             postRequest.httpBody = payload
@@ -57,6 +57,7 @@ class AddCustomerTable: UITableViewController {
         addressField.text = ""
         phoneField.text = ""
         contactPersonField.text = ""
+        emailField.text = ""
     }
     
     // Action to save customer to API
@@ -80,6 +81,11 @@ class AddCustomerTable: UITableViewController {
         if let enteredContactPerson = contactPersonField.text {
             newCustomer.contactPerson = enteredContactPerson
         }
+        if let enteredEmail = emailField.text {
+            newCustomer.email = enteredEmail
+        } else {
+            newCustomer.email = " "
+        }
         saveCustomerToAPI()
         customerAddConfirm()
     }
@@ -93,30 +99,12 @@ class AddCustomerTable: UITableViewController {
         
         self.title = "Add customer"
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    // MARK: - Table view data source
-//
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
-
     
 
 }

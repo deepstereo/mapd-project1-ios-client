@@ -11,19 +11,52 @@ import UIKit
 class CustomerDetails: UITableViewController {
     
     var customerID = ""
-    var selectedCustomer = FirstViewController.Customer()
+    var selectedCustomer = Schema.Customer()
+    var customers = [Schema.Customer()]
     
+    @IBOutlet weak var businessName: UITableViewCell!
     @IBOutlet weak var address: UITableViewCell!
     @IBOutlet weak var phone: UITableViewCell!
+    @IBOutlet weak var email: UITableViewCell!
     @IBOutlet weak var contact: UITableViewCell!
+    
+    
+    // URL Session to download json data
+    func getCustomerById () {
+        let sourceUrl = URL(string: "https://serene-eyrie-60807.herokuapp.com/customers/\(selectedCustomer._id)")
+        URLSession.shared.dataTask(with: sourceUrl!) { (data, response, error) in
+            do {
+                self.customers = try JSONDecoder().decode([Schema.Customer].self, from: data!)
+                print("view will appear with: \(self.selectedCustomer)")
+            } catch {
+                print(error)
+            }
+            }.resume()
+    }
 
+
+    @IBAction func unwindToCustomerDetails(_ sender: UIStoryboardSegue) {
+        let editCustomer = sender.source as! EditCustomerTableViewController
+        let editedCustomer = editCustomer.customerToEdit
+        
+        businessName.textLabel?.text = editedCustomer.businessName
+        address.textLabel?.text = editedCustomer.address
+        phone.textLabel?.text = String(editedCustomer.telephone)
+        email.textLabel?.text = editedCustomer.email
+        contact.textLabel?.text = editedCustomer.contactPerson
+        
+    }
     
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(customerID)
-        self.title = selectedCustomer.businessName
+        
+        print("view did load: \(selectedCustomer)")
+
+        
+        businessName.textLabel?.text = selectedCustomer.businessName
+        businessName.detailTextLabel?.text = "Business name"
         
         address.textLabel?.text = selectedCustomer.address
         address.detailTextLabel?.text = "Address"
@@ -31,96 +64,45 @@ class CustomerDetails: UITableViewController {
         phone.textLabel?.text = String(selectedCustomer.telephone)
         phone.detailTextLabel?.text = "Phone number"
         
+        email.textLabel?.text = selectedCustomer.email
+        email.detailTextLabel?.text = "Email"
+        
         contact.textLabel?.text = selectedCustomer.contactPerson
         contact.detailTextLabel?.text = "Contact person"
-        
- 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
     
-    @IBAction func showOrders(_ sender: Any) {
     }
     
     
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
-
-    // MARK: - Table view data source
-
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 2
-//    }
-
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        switch section {
-//        case 0:
-//            return 3
-//        case 1:
-//            return 4
-//        default:
-//            return 0
-//        }
-//    }
     
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//    }
-
+    @IBAction func showOrders(_ sender: UIButton) {
+        performSegue(withIdentifier: "showCustomerOrders", sender: self)
+    }
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//    }
-//
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    @IBAction func editCustomer() {
+        performSegue(withIdentifier: "showEditCustomer", sender: self)
     }
-    */
+    
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "showEditCustomer" {
+            let editCustomerVC = segue.destination as! EditCustomerTableViewController
+            editCustomerVC.customerToEdit = selectedCustomer
+        }
+        if segue.identifier == "showCustomerOrders" {
         let customerOrdersVC = segue.destination as! CustomerOrdersViewController
         customerOrdersVC.customerID = customerID
+        }
+        if segue.identifier == "backToCustomerDetails" {
+            let editCustomerVC = segue.source as! EditCustomerTableViewController
+            selectedCustomer = editCustomerVC.customerToEdit
+        }
     }
  
 
