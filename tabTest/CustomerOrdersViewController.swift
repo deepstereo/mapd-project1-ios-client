@@ -10,7 +10,9 @@ import UIKit
 
 class CustomerOrdersViewController: UITableViewController {
        
+
     var orderToUpdate = Schema.Order()
+    var orderToDelete = Schema.Order()
     var orders = [Schema.Order]()
     var products = [Schema.Product]()
     var customerId = ""
@@ -68,6 +70,24 @@ class CustomerOrdersViewController: UITableViewController {
         task.resume()
     }
     
+    // Delete order with id
+    
+    func deleteOrder(withId id: String) {
+        let url = URL(string: "https://serene-eyrie-60807.herokuapp.com/orders/\(id)")
+        var delRequest = URLRequest(url: url!)
+        delRequest.httpMethod = "DELETE"
+        delRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let encoder = JSONEncoder()
+        do {
+            let payload = try encoder.encode(self.orderToDelete)
+            delRequest.httpBody = payload
+            print("Delete order: \(String(data: payload, encoding: .utf8)!)")
+        } catch {
+            print(error)
+        }
+        let task = URLSession.shared.dataTask(with: delRequest)
+        task.resume()
+    }
 
     
     // Perform API Actions before view appears
@@ -127,6 +147,25 @@ class CustomerOrdersViewController: UITableViewController {
         
         return cell
     }
+    
+    // Allow table editing
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    
+    // Delete row and order from database
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            orderToDelete = orders[indexPath.row]
+            deleteOrder(withId: orderToDelete._id)
+            getCustomerOrders()
+            tableView.reloadData()
+        }
+    }
+
     
     // MARK: Switch action to update payment status
     

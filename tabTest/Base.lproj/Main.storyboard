@@ -896,7 +896,7 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="tableView" destination="cWC-t8-diX" id="9j5-dd-skx"/>
+                        <outlet property="tableView" destination="cWC-t8-diX" id="jLQ-du-E4d"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JVS-2L-nx2" userLabel="First Responder" sceneMemberID="firstResponder"/>
