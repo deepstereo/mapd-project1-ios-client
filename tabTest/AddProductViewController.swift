@@ -72,7 +72,9 @@ class AddProductViewController: UIViewController, UITextFieldDelegate {
     
     func confirmProductAdded() {
         let alert = UIAlertController(title: "Thank you!", message: "New product added", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Done", style: .default, handler: nil)
+        let action = UIAlertAction(title: "Done", style: .default) { (action) in
+            self.navigationController?.popViewController(animated: true)
+        }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
         productPriceField.text = ""

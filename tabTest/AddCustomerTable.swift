@@ -50,7 +50,9 @@ class AddCustomerTable: UITableViewController {
     
     func customerAddConfirm () {
         let alert = UIAlertController(title: "Thank you!", message: "New customer added!", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Done", style: .default, handler: nil)
+        let action = UIAlertAction(title: "Done", style: .default) { (action) in
+            self.navigationController?.popViewController(animated: true)
+        }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
         nameField.text = ""

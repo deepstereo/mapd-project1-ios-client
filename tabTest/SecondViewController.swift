@@ -15,10 +15,11 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var orders = [Schema.Order]()
     var customers = [Schema.Customer]()
     var orderToUpdate = Schema.Order()
+    var orderToDelete = Schema.Order()
     
     @IBOutlet weak var tableView: UITableView!
     
-    // URL Session to get orders data from API
+    // MARK: API Actions to get customers, orders, products
     
     func getOrders () {
         let ordersUrl = URL(string: "https://serene-eyrie-60807.herokuapp.com/orders")
@@ -83,6 +84,27 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     
+    // Delete order with id
+    
+    func deleteOrder(withId id: String) {
+        let url = URL(string: "https://serene-eyrie-60807.herokuapp.com/orders/\(id)")
+        var delRequest = URLRequest(url: url!)
+        delRequest.httpMethod = "DELETE"
+        delRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let encoder = JSONEncoder()
+        do {
+            let payload = try encoder.encode(self.orderToDelete)
+            delRequest.httpBody = payload
+            print("Delete order: \(String(data: payload, encoding: .utf8)!)")
+        } catch {
+            print(error)
+        }
+        let task = URLSession.shared.dataTask(with: delRequest)
+        task.resume()
+    }
+    
+    
+    
     // Reload table data before view loads
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,12 +153,34 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
 
+    // Allow table editing
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    
+    // Delete row and order from database
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            orderToDelete = orders[indexPath.row]
+            deleteOrder(withId: orderToDelete._id)
+            getOrders()
+            tableView.reloadData()
+        }
+    }
+    
+    
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
 
-
+    // Switch action to mark order as paid
+    
     @IBAction func paidSwitchChange(_ sender: UISwitch) {
         let cell = sender.superview?.superview as! OrderCell
         let indexPath = tableView.indexPath(for: cell)

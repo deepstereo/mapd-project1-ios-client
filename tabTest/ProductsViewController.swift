@@ -93,7 +93,7 @@ class ProductsViewController: UIViewController, UITableViewDelegate, UITableView
         return true
     }
     
-    // Delete row and task from database
+    // Delete row and order from database
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
