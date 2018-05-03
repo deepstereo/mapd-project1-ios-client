@@ -6,4 +6,4 @@ The app uses Codable protocol intoduced in iOS 11 / Swift 4 to work with JSON da
 
 ## App screenshots
 
-
+![Screenshots](screenshots.png "Screenshots")
